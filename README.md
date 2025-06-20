@@ -1,2 +1,2 @@
- -estellar-growth-simuletor-
+# -estellar-growth-simuletor-
 Simoletor de investimento 
