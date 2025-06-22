@@ -1,1 +1,34 @@
+<template>
+  <div class="step">
+    <h2>{{ $t('steps.configuration.title') }}</h2>
+    
+    <div class="input-group">
+      <label>{{ $t('inputs.monthlyAmount') }}</label>
+      <input 
+        v-model.number="store.simulation.monthlyAmount" 
+        type="number" 
+        min="0"
+      >
+    </div>
 
+    <ScenarioOptimizer @optimized="applyOptimization" />
+    
+    <div class="step-actions">
+      <button @click="$emit('back')">{{ $t('common.back') }}</button>
+      <button @click="validateAndProceed">{{ $t('common.next') }}</button>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { useSimulationStore } from '../../stores/simulationStore'
+import ScenarioOptimizer from '../shared/ScenarioOptimizer.vue'
+
+const store = useSimulationStore()
+
+const validateAndProceed = () => {
+  if (store.simulation.monthlyAmount > 0) {
+    $emit('next')
+  }
+}
+</script>
