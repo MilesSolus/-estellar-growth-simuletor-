@@ -17,3 +17,4 @@ export const useSimulationStore = defineStore('simulation', () => {
 
   return { simulation, historicalData, fetchHistoricalData }
 })
+    
