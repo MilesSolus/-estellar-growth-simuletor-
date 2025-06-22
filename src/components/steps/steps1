@@ -1,1 +1,22 @@
+<template>
+  <div class="step">
+    <h2>{{ $t('steps.assetType.title') }}</h2>
+    <AssetAutocomplete 
+      :max-assets="investmentType === 'single' ? 1 : 5"
+      @update="handleAssetSelection"
+    />
+    <div class="step-actions">
+      <button @click="$emit('next')">{{ $t('common.next') }}</button>
+    </div>
+  </div>
+</template>
 
+<script setup>
+import { ref } from 'vue'
+import AssetAutocomplete from '../shared/AssetAutocomplete.vue'
+
+const investmentType = ref('single')
+const handleAssetSelection = (assets) => {
+  // Store logic here
+}
+</script>
