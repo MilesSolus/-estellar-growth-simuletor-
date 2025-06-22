@@ -1,1 +1,73 @@
+<template>
+  <div class="step">
+    <h2>Step 4: Visualization</h2>
+    
+    <div class="chart-container">
+      <canvas ref="chart"></canvas>
+    </div>
 
+    <div class="comparison">
+      <h3>Community Comparison</h3>
+      <p>Your projection is better than <strong>72%</strong> of similar investors</p>
+    </div>
+
+    <div class="button-group">
+      <button @click="$emit('back')">Back</button>
+      <button @click="$emit('next')">Export Report</button>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref, onMounted } from 'vue'
+import { useSimulationStore } from '../../stores/simulationStore'
+import Chart from 'chart.js/auto'
+
+const store = useSimulationStore()
+const chart = ref(null)
+
+onMounted(() => {
+  new Chart(chart.value, {
+    type: 'line',
+    data: {
+      labels: Array.from({ length: store.investmentData.term }, (_, i) => `Month ${i+1}`),
+      datasets: [{
+        label: 'Projection',
+        data: calculateMonthlyProjection(),
+        borderColor: '#00FFA3',
+        tension: 0.4
+      }]
+    }
+  })
+})
+
+const calculateMonthlyProjection = () => {
+  // Lógica de projeção mensal
+  const projections = []
+  let current = store.investmentData.monthlyAmount
+  
+  for (let i = 0; i < store.investmentData.term; i++) {
+    if (i % 12 === 0 && i !== 0) {
+      current *= 1.08 // Aplica juros anuais
+    }
+    projections.push(current)
+    current += store.investmentData.monthlyAmount
+  }
+  
+  return projections
+}
+</script>
+
+<style scoped>
+.chart-container {
+  margin: 30px 0;
+  height: 300px;
+}
+
+.comparison {
+  background: var(--card-bg);
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 20px;
+}
+</style>
