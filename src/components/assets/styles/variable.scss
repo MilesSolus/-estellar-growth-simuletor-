@@ -1,1 +1,17 @@
+:root {
+  --primary: #2A5C9A;
+  --accent: #00FFA3;
+  --bg-light: #FFFFFF;
+  --text-light: #333333;
+  
+  /* Dark mode */
+  --bg-dark: #121212;
+  --text-dark: #E0E0E0;
+}
 
+/* Glass effect */
+.glass-card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
