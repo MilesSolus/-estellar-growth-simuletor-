@@ -1,1 +1,97 @@
+<template>
+  <div class="step">
+    <h2>Step 5: Export Report</h2>
+    
+    <div class="export-options">
+      <div class="option-card" @click="exportPDF">
+        <img src="@/assets/pdf-icon.svg" alt="PDF">
+        <span>Generate PDF</span>
+      </div>
 
+      <div class="option-card" @click="exportCSV">
+        <img src="@/assets/csv-icon.svg" alt="CSV">
+        <span>Export CSV</span>
+      </div>
+
+      <div class="option-card" @click="shareLink">
+        <img src="@/assets/link-icon.svg" alt="Share">
+        <span>Share Link</span>
+      </div>
+    </div>
+
+    <div class="notes">
+      <textarea v-model="notes" placeholder="Add personal notes..."></textarea>
+    </div>
+
+    <div class="button-group">
+      <button @click="$emit('back')">Back</button>
+      <button @click="finish">Finish</button>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref } from 'vue'
+import { useSimulationStore } from '../../stores/simulationStore'
+
+const store = useSimulationStore()
+const notes = ref('')
+
+const exportPDF = () => {
+  alert('PDF generated with simulation data!')
+  // Lógica real usaria bibliotecas como jsPDF
+}
+
+const shareLink = () => {
+  const link = `${window.location.origin}/share/${generateId()}`
+  navigator.clipboard.writeText(link)
+  alert('Link copied to clipboard!')
+}
+
+const finish = () => {
+  if (confirm('Finish and reset simulator?')) {
+    store.reset()
+    $emit('reset')
+  }
+}
+
+const generateId = () => {
+  return Math.random().toString(36).substring(2, 9)
+}
+</script>
+
+<style scoped>
+.export-options {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  margin: 30px 0;
+}
+
+.option-card {
+  background: var(--card-bg);
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.option-card:hover {
+  transform: translateY(-5px);
+}
+
+.option-card img {
+  width: 50px;
+  height: 50px;
+  margin-bottom: 10px;
+}
+
+.notes textarea {
+  width: 100%;
+  min-height: 100px;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+}
+</style>
